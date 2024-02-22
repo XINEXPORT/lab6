@@ -56,9 +56,22 @@ avocados
 avocados %>% str(strict.width = "cut")
 
 #Display the value counts for the region column, and note that one of the regions is TotalUS.
+avocados %>% select(region) %>% table()
+#TotalUS is 338
 
+#Drop the rows that have a region of TotalUS.
+avocados<-avocados %>% filter(region != "TotalUS")
 
+#Check to see if any of the rows have missing values.
+avocados %>% filter(!complete.cases(avocados))
+length(avocados$Date)
 
+#Rename the type, year, and region columns to Type, Year, and Region.
+avocados <- avocados %>% rename(Type = type, Year = year, Region = region)
 
+#Convert the Date column to the Date type and the Type column to the factor type.
+avocados <- avocados %>% mutate(type = factor(type))
+avocados <- avocados %>% mutate(Date = as.Date("Date", format = "%m/$d/%y"))
 
-
+#Display the tibble to make sure your code worked correctly.
+avocados
